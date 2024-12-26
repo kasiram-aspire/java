@@ -33,7 +33,7 @@ public class BankApplication {
                         Name.add(name);  
                         Amount.add(0);  
                     
-                    System.out.println(" accounts created successfully.");
+                    System.out.println(" accounts created successfully. Account no:"+rand_acc_num);
                     break;
 
                 case 2:
