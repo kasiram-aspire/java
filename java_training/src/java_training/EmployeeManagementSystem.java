@@ -85,8 +85,8 @@ public class EmployeeManagementSystem {
 		 ArrayList<employeeDetails> empobj=new ArrayList<>();
 		Scanner sc=new Scanner(System.in);
 		while(true)
-        {
-        	System.out.println("press 1 for Add employee");
+        {   
+        	System.out.println("press 1 for Add employee"); 
 			System.out.println("press 2 for Display employee details");
 			System.out.println("press 3 for total salary expense for all employee");
 			System.out.println("press 4 for Exit");
@@ -118,10 +118,10 @@ public class EmployeeManagementSystem {
 				   empobj.add(empd);
 				   break;
 			 case 2:
-				  employee.display(empobj);
+	 			  employee.display(empobj);
 				 break;
 			 case 3:
-				  employee.total(empobj);
+				  employee.total(empobj);   
 				 break;
 			 case 4:				 
 				 System.out.println("exit");
