@@ -14,16 +14,8 @@ abstract class  product
 	public abstract double calculateDiscount();
     public abstract double applyTax();
     public abstract double getPrice();
-    
-	public void dispalyProductDetails()
-	{
-		System.out.println("name:"+name);
-		System.out.println("orginalPrice:"+basePrice);
-		System.out.println("Discount:"+calculateDiscount());
-		System.out.println("Tax:"+applyTax());
-		System.out.println("FinalPrice:"+getPrice());
-		System.out.println("-----------------------------------------------------");
-	}
+    public abstract void dispalyProductDetails();
+	
 }
 class Electronics extends product
 {
@@ -53,6 +45,15 @@ class Electronics extends product
     {
     	return(basePrice-calculateDiscount()+applyTax());
     }
+    public void dispalyProductDetails()
+	{
+		System.out.println("name:"+name);
+		System.out.println("orginalPrice:"+basePrice);
+		System.out.println("Discount:"+calculateDiscount());
+		System.out.println("Tax:"+applyTax());
+		System.out.println("FinalPrice:"+getPrice());
+		System.out.println("-----------------------------------------------------");
+	}
 }
 class clothing extends product
 {
@@ -72,6 +73,15 @@ class clothing extends product
     {
     	return(basePrice-calculateDiscount()+applyTax());
     }
+    public void dispalyProductDetails()
+	{
+		System.out.println("name:"+name);
+		System.out.println("orginalPrice:"+basePrice);
+		System.out.println("Discount:"+calculateDiscount());
+		System.out.println("Tax:"+applyTax());
+		System.out.println("FinalPrice:"+getPrice());
+		System.out.println("-----------------------------------------------------");
+	}
 }
 class groceries extends product
 {
@@ -91,6 +101,15 @@ class groceries extends product
     {
     	return(basePrice-calculateDiscount()+applyTax());
     }
+    public void dispalyProductDetails()
+	{
+		System.out.println("name:"+name);
+		System.out.println("orginalPrice:"+basePrice);
+		System.out.println("Discount:"+calculateDiscount());
+		System.out.println("Tax:"+applyTax());
+		System.out.println("FinalPrice:"+getPrice());
+		System.out.println("-----------------------------------------------------");
+	}
 	
 }
 public class OnlineShoping {
