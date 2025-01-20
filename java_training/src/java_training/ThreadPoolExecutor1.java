@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolExecutor1 {
 	
 	public static void main(String[] args) {
+		
 		ThreadPoolExecutor pool=new ThreadPoolExecutor(2,5,3,TimeUnit.SECONDS,new ArrayBlockingQueue<>(2),new kasiExecutor(),new kasiHandler());
 		pool.allowCoreThreadTimeOut(true);
         for(int i=0;i<10;i++)
@@ -32,7 +33,7 @@ public class ThreadPoolExecutor1 {
         }
         pool.shutdown();
 	}
-	static class kasiExecutor implements ThreadFactory
+   static  class kasiExecutor implements ThreadFactory
 	{
 
 		@Override
