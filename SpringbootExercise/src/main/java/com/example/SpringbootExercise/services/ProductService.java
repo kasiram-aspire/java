@@ -22,4 +22,10 @@ public class ProductService {
      {
     	 return productList;
      }
+	public Product getElementById(int productId) {
+		return productList.stream()
+				          .filter(n->productId==n.getId())
+				          .findFirst()
+				          .orElse(null);
+	}
 }

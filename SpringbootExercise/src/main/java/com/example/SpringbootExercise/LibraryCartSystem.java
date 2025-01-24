@@ -92,7 +92,7 @@ public class LibraryCartSystem {
 					break;
 			   
 			   case 4:  //exit loop it initialized here
-				   System.out.println("....................Exited...................");
+				 System.out.println(".................Exited...................");
 				   return;
 			   default:
 				   System.out.println("*****invalid input******");
