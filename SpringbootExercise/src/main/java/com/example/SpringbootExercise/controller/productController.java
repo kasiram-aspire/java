@@ -19,26 +19,32 @@ import com.example.SpringbootExercise.services.ProductService;
 public class productController {
 	@Autowired
 	public ProductService productservice;
-	@GetMapping("/product")       //it show all products in the web
-    public List<Product> show()
-    {   productservice.addProduct();
-    	return productservice.getProduct();
-    }
+	
+	@GetMapping("/product")
+	public List<Product> getallproduct()
+	{
+		return productservice.getProduct();
+		
+	}
+	
 	@GetMapping("/product/{productId}")        //based on the productid it display the product
 	public Product getById(@PathVariable int productId)
 	{   
 		return productservice.getElementById(productId);
 	}
+	
 	@PostMapping("/add")      // add product using json
 	public void addProductElement(@RequestBody Product product)
-	{   System.out.println(product);
+	{   //System.out.println(product);
 		productservice.addProductElement(product);
 	}
+	
 	@PutMapping("/product/updateproduct")    //update the product
 	public void Updateproduct(@RequestBody Product product)
 	{
 		productservice.updateproduct(product);
 	}
+	
 	@DeleteMapping("/product/deleteproduct/{productId}")  // delete the product
 	public void deleteproduct(@PathVariable int productId)
 	{

@@ -1,9 +1,14 @@
 package com.example.SpringbootExercise.models;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
-@Controller
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+@Component
+@Entity                       //mapped with productinfo tbale
 public class Product {
+	  @Id                      //id as a primary key
       private int id;
       private String productname;
       private int price;
