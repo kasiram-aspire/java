@@ -33,9 +33,10 @@ public class ProductService {
 		
 		return repo.findById(productId).orElse(null);
 	}
-	public void addProductElement(Product product)
+	public Product addProductElement(Product product)
 	{   
 		repo.save(product);
+		return product;
 	}
 	public void updateproduct(Product product) {   // update the product based on product id
 		repo.save(product);
