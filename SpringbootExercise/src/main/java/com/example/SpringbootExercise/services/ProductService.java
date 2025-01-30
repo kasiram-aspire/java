@@ -35,11 +35,11 @@ public class ProductService {
 	}
 	public Product addProductElement(Product product)
 	{   
-		repo.save(product);
-		return product;
+	      repo.save(product);
+		  return product;
 	}
-	public void updateproduct(Product product) {   // update the product based on product id
-		repo.save(product);
+	public Product updateproduct(Product product) {   // update the product based on product id
+		return repo.save(product);
 		
 	}
 	public void deleteproduct(int productId) {   //delete the product based on the product id

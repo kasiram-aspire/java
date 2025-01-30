@@ -2,6 +2,7 @@ package com.example.SpringbootExercise.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.SpringbootExercise.models.Product;
+import com.example.SpringbootExercise.repository.ProductRepo;
 import com.example.SpringbootExercise.services.ProductService;
 
 @RestController
+@RequestMapping("/login")
 public class productController {
 	@Autowired
 	public ProductService productservice;
+
 	
 	@GetMapping("/product")
 	public List<Product> getallproduct()
@@ -34,15 +38,19 @@ public class productController {
 	}
 	
 	@PostMapping("/add")      // add product using json
-	public void addProductElement(@RequestBody Product product)
+	public Product addProductElement(@RequestBody Product product)
 	{   //System.out.println(product);
-		productservice.addProductElement(product);
+		
+		 Product savedProduct = productservice.addProductElement(product);
+		 System.out.println("Product added: " + savedProduct);
+		 return savedProduct;
+		
 	}
 	
 	@PutMapping("/product/updateproduct")    //update the product
-	public void Updateproduct(@RequestBody Product product)
+	public Product Updateproduct(@RequestBody Product product)
 	{
-		productservice.updateproduct(product);
+		return productservice.updateproduct(product);
 	}
 	
 	@DeleteMapping("/product/deleteproduct/{productId}")  // delete the product
