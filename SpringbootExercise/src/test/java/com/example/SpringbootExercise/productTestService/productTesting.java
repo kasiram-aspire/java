@@ -2,6 +2,9 @@ package com.example.SpringbootExercise.productTestService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,7 +86,7 @@ public class productTesting {
       	assertNotNull(savedproduct);
     	assertEquals("iphone",savedproduct.getProductname());
     }
-    // get element by id
+    // update
     @Test
     public void update()
     {
@@ -92,6 +95,18 @@ public class productTesting {
       	Product savedproduct= productservice.getElementById(100);
       	assertNotNull(savedproduct);
     	assertEquals("iphone",savedproduct.getProductname());
+    }
+    @Test
+    public void Delete()
+    {
+    	int productId = 200;
+    	Product product = new Product(100, "iphone", 5000000);
+    	when(repo.findById(productId)).thenReturn(Optional.of(product));
+    	doNothing().when(repo).deleteById(productId);
+        // Call delete method
+        String result = productservice.deleteproduct(productId);
+        // Verify deletion and assert response
+        assertEquals("Product deleted successfully", result);
     }
     
     

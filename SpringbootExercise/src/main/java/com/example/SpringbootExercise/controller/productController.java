@@ -18,7 +18,6 @@ import com.example.SpringbootExercise.repository.ProductRepo;
 import com.example.SpringbootExercise.services.ProductService;
 
 @RestController
-@RequestMapping("/login")
 public class productController {
 	@Autowired
 	public ProductService productservice;
@@ -57,6 +56,7 @@ public class productController {
 	public void deleteproduct(@PathVariable int productId)
 	{
 		productservice.deleteproduct(productId);
+		
 	}
 	
 }

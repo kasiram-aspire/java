@@ -42,8 +42,8 @@ public class ProductService {
 		return repo.save(product);
 		
 	}
-	public void deleteproduct(int productId) {   //delete the product based on the product id
+	public String deleteproduct(int productId) {   //delete the product based on the product id
 		repo.deleteById(productId);
-		
+		return "product deleted successfully";
 	}
 }
