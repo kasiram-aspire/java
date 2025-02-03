@@ -3,9 +3,9 @@ package com.example.SpringbootExercise.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.SpringbootExercise.models.GrocessryProduct;
+import com.example.SpringbootExercise.models.GroceryProduct;
 
 @Repository
-public interface GrocessryProductRepo extends JpaRepository< GrocessryProduct, Long>{
+public interface GroceryProductRepository extends JpaRepository<GroceryProduct, Long> {
 
 }
