@@ -23,4 +23,7 @@ public class EmployeeService {
 	public List<Employee> showemployee() {
 		return emprepo.findAll();
 	}
+	public List<Employee> getByName(String name) {
+		return emprepo.findByEmployeeName(name);
+	}
 }

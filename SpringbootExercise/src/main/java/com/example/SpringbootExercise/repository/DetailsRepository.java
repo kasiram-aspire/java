@@ -7,5 +7,4 @@ import com.example.SpringbootExercise.models.Details;
 import com.example.SpringbootExercise.models.Employee;
 @Repository
 public interface DetailsRepository extends  JpaRepository<Details, Integer>  {
-
 }
