@@ -12,9 +12,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity   // it says dont use default security use this configuration
@@ -24,12 +27,17 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityfilterchain(HttpSecurity http) throws Exception
 	{
-		return http.csrf(customizer->customizer.disable()) //disable the csrf
-	        .authorizeHttpRequests(request->request.anyRequest().authenticated()) //Applying authentication 
-	      //http.formLogin(Customizer.withDefaults());//for authentication we need user id and name
-		    .httpBasic(Customizer.withDefaults())//acess for restapi if not mentioned it return html body in reqbin
-		    .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		    .build();  //return object of securityfilter chain
+		return http.csrf(customizer->customizer.disable())
+		//forces 403 forbidden for encryption
+		.authorizeHttpRequests(request->request.anyRequest().authenticated())
+		//this generates login
+		//.formLogin(Customizer.withDefaults())
+		//for JSON data but it by passes if form login is not present but generates each session for every refresh or restart
+		.httpBasic(Customizer.withDefaults())
+		//this generates each session every time
+		//to make this stateless means generating each session for every refresh or every run
+		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.build();
 	}
 //	@Bean
 //	public UserDetailsService userDetailsservice() //user detailsservice is interface
@@ -46,7 +54,8 @@ public class SecurityConfig {
 	public AuthenticationProvider authenticationProvider()
 	{
 		DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
-		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+		provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
 		provider.setUserDetailsService(userDetailsService);  //USING THIS CRATING A OWN USERDETAIL SERVICE
 		return provider;
 	}

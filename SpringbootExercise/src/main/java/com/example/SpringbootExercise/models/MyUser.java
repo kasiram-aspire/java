@@ -1,14 +1,26 @@
 package com.example.SpringbootExercise.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
 public class MyUser {
-	@Id
-	private int id;
-	private String username;
-	private String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String username;
+    private String password;
+    
+    
+	public MyUser() {
+		super();
+	}
+	public MyUser(int id, String username, String password) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
 	public int getId() {
 		return id;
 	}
@@ -27,10 +39,4 @@ public class MyUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@Override
-	public String toString() {
-		return "MyUser [id=" + id + ", username=" + username + ", password=" + password + "]";
-	}
-	
-
 }
