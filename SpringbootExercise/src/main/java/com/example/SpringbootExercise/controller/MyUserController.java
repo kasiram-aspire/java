@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.SpringbootExercise.models.MyUser;
 import com.example.SpringbootExercise.services.MyUserService;
+
 @Component
 @RestController
 public class MyUserController {
@@ -21,4 +21,9 @@ public class MyUserController {
 		  return userservice.addUserPassword(user);
 		 
 		}
+	  @PostMapping("/login")
+	  public String Login(@RequestBody MyUser myuser)
+	  {
+		  return userservice.verify(myuser);
+	  }
 }

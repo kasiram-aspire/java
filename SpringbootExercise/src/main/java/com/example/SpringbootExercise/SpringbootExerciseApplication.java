@@ -1,15 +1,13 @@
 package com.example.SpringbootExercise;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Component;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
+//@ComponentScan("com.example.SpringbootExercise.*")
 public class SpringbootExerciseApplication {
 
 	public static void main(String[] args) {
