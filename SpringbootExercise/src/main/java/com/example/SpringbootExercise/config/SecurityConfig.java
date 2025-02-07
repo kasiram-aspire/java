@@ -19,8 +19,10 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
 @Configuration
 @EnableWebSecurity   // it says dont use default security use this configuration
@@ -32,11 +34,18 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityfilterchain(HttpSecurity http) throws Exception
 	{
+		HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(
+		        new ClearSiteDataHeaderWriter(ClearSiteDataHeaderWriter.Directive.CACHE, 
+		                                      ClearSiteDataHeaderWriter.Directive.COOKIES, 
+		                                      ClearSiteDataHeaderWriter.Directive.STORAGE)
+		);
 		return http.csrf(customizer->customizer.disable())
 		//forces 403 forbidden for encryption
 		.authorizeHttpRequests(request->request
-				                        .requestMatchers("adduser","login")
+				                        .requestMatchers("adduser","login","refresh-token")
 				                        .permitAll() //it permits the adduser and login without username and password
+				                        .requestMatchers("/emp/add").hasAuthority("ADMIN") // Only ADMIN can add employees
+				                        .requestMatchers("/emp/get").hasAnyAuthority("ADMIN", "USER") // Both ADMIN and USER can view employees
 				                        .anyRequest().authenticated())
 		//this generates login
 		//.formLogin(Customizer.withDefaults())
@@ -46,6 +55,7 @@ public class SecurityConfig {
 		//to make this stateless means generating each session for every refresh or every run
 		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.addFilterBefore(jwtfilter,UsernamePasswordAuthenticationFilter.class)
+		.logout((logout) -> logout.addLogoutHandler(clearSiteData))
 		.build();
 	}
 //	@Bean
@@ -68,7 +78,6 @@ public class SecurityConfig {
 		provider.setUserDetailsService(userDetailsService);  //USING THIS Creating A OWN USERDETAIL SERVICE
 		return provider;
 	}
-	
 	@Bean
 	 public AuthenticationManager authenticationmanagaer(AuthenticationConfiguration config ) throws Exception
 	 {

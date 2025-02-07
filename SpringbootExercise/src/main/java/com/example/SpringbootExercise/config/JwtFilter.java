@@ -29,10 +29,11 @@ public class JwtFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		     //when i request .from client side response is Bearer actualtoken 
-		String authHeader=request.getHeader("Authorization");
+		String authHeader=request.getHeader("Authorization");//The "Authorization" header typically contains authentication credentials, 
+		                                                     //such as a JWT (JSON Web Token) or a Basic Auth token.
 		String token=null;
 		String username=null;
-		if(authHeader !=null && authHeader.startsWith("Bearer"))
+		if(authHeader !=null && authHeader.startsWith("Bearer"))  // extract user name from token
 		{
 			token=authHeader.substring(7);
 			username=jwtservice.extractUserName(token);
@@ -40,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter{
 		if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null)
 		{
 			 UserDetails userDetails= context.getBean(MyUserDetailService.class).loadUserByUsername(username);
-			if(jwtservice.validateToken(token,userDetails))
+			if(jwtservice.validateToken(token,userDetails))  //check token is valid based on user name
 			{
 				UsernamePasswordAuthenticationToken authToken=
 						new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
@@ -48,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter{
 				 SecurityContextHolder.getContext().setAuthentication(authToken);
 			}
 		}
-		filterChain.doFilter(request, response);
+		filterChain.doFilter(request, response);  //Passes the request and response to the next filter in the chain.
 	}
    
 }

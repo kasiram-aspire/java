@@ -11,6 +11,7 @@ import java.util.function.Function;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +36,13 @@ public class JwtService {
 	public String generateToken(String username) {
 		//token generation
 		Map<String,Object> claims= new HashMap<>();
+		claims.put("role", "USER"); // Assign the role to JWT
 		return Jwts.builder()
 				   .claims()
 				   .add(claims)
 				   .subject(username)
 				   .issuedAt(new Date(System.currentTimeMillis()))
-				   .expiration(new Date(System.currentTimeMillis()+60*60*30))//expired in 30 mins
+				   .expiration(new Date(System.currentTimeMillis()+60*30*1000))//expired in 30 mins
 				   .and()
 				   .signWith(getkey())
 				   .compact();
@@ -85,6 +87,18 @@ public class JwtService {
 
 	    private Date extractExpiration(String token) {
 	        return extractClaim(token, Claims::getExpiration);
+	    }
+	    public String refreshToken(String token) {
+	        Claims claims = extractAllClaims(token); // Extract existing claims
+	        String username = claims.getSubject();
+
+	        return Jwts.builder()
+	                .claims(claims) // Keep old claims
+	                .subject(username)
+	                .issuedAt(new Date(System.currentTimeMillis()))
+	                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // Extend expiration
+	                .signWith(getkey())
+	                .compact();
 	    }
 
 }
