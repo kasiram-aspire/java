@@ -2,9 +2,7 @@ package com.example.SpringbootExercise.models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +20,7 @@ public class Employee {
    private int id;
    private String employeeName;
    private String email;
-   @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   @OneToMany(mappedBy ="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
    @JsonManagedReference 
    List<Details>detailslist;
    
