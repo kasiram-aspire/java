@@ -28,5 +28,8 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFileLogger"/>
         </Root>
+<!--         <Logger name="com.example.SpringbootExercise.controller"> -->
+        
+<!--         </Logger> -->
     </Loggers>
 </Configuration>
