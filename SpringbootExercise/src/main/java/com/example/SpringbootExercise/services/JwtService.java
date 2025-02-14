@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.SpringbootExercise.models.MyUser;
+import com.example.SpringbootExercise.repository.MyUserRepo;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -22,6 +25,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+	@Autowired
+	  MyUserRepo userrepo;
     private String key="";
     private JwtService ()
     {
@@ -30,13 +35,15 @@ public class JwtService {
 			SecretKey sk=keygen.generateKey();
 			key=Base64.getEncoder().encodeToString(sk.getEncoded());
 		} catch (NoSuchAlgorithmException e) {
+			
 			e.printStackTrace();
 		}
     }
 	public String generateToken(String username) {
 		//token generation
 		Map<String,Object> claims= new HashMap<>();
-		claims.put("role", "USER"); // Assign the role to JWT
+		MyUser usr=userrepo.findByUsername(username);
+		claims.put("role",usr.getRole()); // Assign the role to JWT
 		return Jwts.builder()
 				   .claims()
 				   .add(claims)
@@ -91,12 +98,11 @@ public class JwtService {
 	    public String refreshToken(String token) {
 	        Claims claims = extractAllClaims(token); // Extract existing claims
 	        String username = claims.getSubject();
-
-	        return Jwts.builder()
+	        return Jwts.builder()    
 	                .claims(claims) // Keep old claims
-	                .subject(username)
+	                .subject(username)        
 	                .issuedAt(new Date(System.currentTimeMillis()))
-	                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // Extend expiration
+	                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))  //
 	                .signWith(getkey())
 	                .compact();
 	    }

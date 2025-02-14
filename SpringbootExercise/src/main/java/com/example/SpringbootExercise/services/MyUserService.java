@@ -5,6 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.SpringbootExercise.UserAlreadyExistsException;
 import com.example.SpringbootExercise.models.MyUser;
 import com.example.SpringbootExercise.repository.MyUserRepo;
 
@@ -20,9 +22,14 @@ public class MyUserService {
     
 	public MyUser addUserPassword(MyUser users) {
 		users.setPassword(encoder.encode(users.getPassword()));
+		MyUser u=userrepo.findByUsername(users.getUsername());
+		 if (u!=null) {
+	            throw new UserAlreadyExistsException("Username '" + users.getUsername() + "' is already taken!");
+	        }
 		 if (users.getRole() == null || users.getRole().isEmpty()) {
 	            users.setRole("USER"); // Default role if not provided
 	        }
+		 
 		userrepo.save(users);
 		return users;
 		

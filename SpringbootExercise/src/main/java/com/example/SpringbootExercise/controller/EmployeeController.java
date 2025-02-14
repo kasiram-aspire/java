@@ -4,6 +4,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +25,19 @@ public class EmployeeController {
    EmployeeService employeeservice;
    
    @PostMapping("/add")
-   public String add(@RequestBody Employee emp )
+   public ResponseEntity<String> add(@RequestBody Employee emp )
    {
 	   logger.info("Received request to add employee:",emp);   
 	   employeeservice.addEmployeeWithAdress(emp);
 	   logger.info("Employee added successfully:",emp);
-	   return"added";   //add  employee 
+	   return ResponseEntity.ok("added");   //add  employee 
    }
    @GetMapping("/get")
-   public List<Employee> show()
+   public ResponseEntity<List<Employee>> show()
    {   logger.info("Fetching all employees");
        List<Employee> employees = employeeservice.showemployee();
        logger.info("Total employees retrieved: {}", employees.size());
-	   return employeeservice.showemployee();    //get all employee details
+	   return ResponseEntity.ok(employeeservice.showemployee());    //get all employee details
 	   
    }
    @GetMapping("/csrf-token")
@@ -51,10 +52,10 @@ public class EmployeeController {
   		return request.getSession().getId();    //return session id
   	}
    @GetMapping("/get/{name}")    
- 	public List<Employee> getsessionid(@PathVariable String name)
+ 	public ResponseEntity<List<Employee>> getsessionid(@PathVariable String name)
  	{    logger.info("Fetching employees with name: {}", name);
  		List<Employee> employees = employeeservice.getByName(name);
  		logger.info("Total employees retrieved for name {}: {}", name, employees.size());
- 		return employeeservice.getByName(name);       //if the employee name is present it return the particular employee details
+ 		return ResponseEntity.ok(employeeservice.getByName(name));       //if the employee name is present it return the particular employee details
  	}
 }
