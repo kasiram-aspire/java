@@ -20,13 +20,13 @@ public class Employee {
    private int id;
    private String employeeName;
    private String email;
-   @OneToMany(mappedBy ="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   @OneToMany(mappedBy ="employee",cascade = CascadeType.ALL, fetch=FetchType.LAZY)
    @JsonManagedReference 
    List<Details>detailslist;
    
 	public Employee() {
 	}
-
+	
 	public Employee(int id, String employeeName, String email) {
 		this.id = id;
 		this.employeeName = employeeName;
