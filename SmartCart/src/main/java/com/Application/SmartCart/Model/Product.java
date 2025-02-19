@@ -1,5 +1,8 @@
 package com.Application.SmartCart.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -7,7 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 @Entity
 public class Product {
 	 
@@ -15,16 +18,21 @@ public class Product {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    private String productName;
-	    @OneToOne(mappedBy="product",fetch=FetchType.LAZY)
-	    @JsonBackReference
-	    private User user;
+	    @ManyToMany(mappedBy="products",fetch=FetchType.LAZY)
+	    private Set<User> users = new HashSet<>();
+	    
 		public Product() {
 		}
-		public Product(Long id, String productName, User user) {
+	    public Product(String productName) {
+	        this.productName =productName;
+	    }
+
+		public Product(Long id, String productName, Set<User> users) {
 			this.id = id;
 			this.productName = productName;
-			this.user = user;
+			this.users = users;
 		}
+
 		public Long getId() {
 			return id;
 		}
@@ -37,12 +45,12 @@ public class Product {
 		public void setProductName(String productName) {
 			this.productName = productName;
 		}
-		public User getUser() {
-			return user;
+		public Set<User> getUsers() {
+			return users;
 		}
-		public void setUser(User user) {
-			this.user = user;
+		public void setUsers(Set<User> users) {
+			this.users = users;
 		}
-	    
+		
 	
 }

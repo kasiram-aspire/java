@@ -14,10 +14,10 @@ public class Sample {
 	
 	@Autowired
 	 private Userservice userservice;
-   @PostMapping("/add")
-   public User adduser(@RequestBody User user)
+   @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
+   public String adduser(@RequestBody User user)
    {
-	return userservice.adduser(user);
+	  return userservice.adduser(user);
 	   
    }
    

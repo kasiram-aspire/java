@@ -31,7 +31,7 @@ public class OrderController {
 	public Mono<ResponseEntity<orderResponseDTO>> placeOrder(@RequestBody Order order)
 	{
 		// fetch product details from productservice
-		return webClientBuilder.build().get().uri("http://localhost:8080/product/products/"+ order.getProductId()).retrieve()
+		return webClientBuilder.build().get().uri("http://PRODUCT-SERVICE/product/products/"+ order.getProductId()).retrieve()
 				.bodyToMono(ProductDto.class).map(productDTO->{
 					 orderResponseDTO responseDTO=new orderResponseDTO();
 					 responseDTO.setProductId(order.getProductId());

@@ -1,17 +1,17 @@
 package com.Application.SmartCart.Model;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -20,20 +20,23 @@ public class User {
     private Long id;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    @JoinColumn(name="fk_productId")
-    @JsonManagedReference
-    private Product product;
-     
+    @ManyToMany
+    @JoinTable(
+        name = "user_product", 
+        joinColumns = @JoinColumn(name = "user_id"), 
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> products = new HashSet<>();
+    public User(String name) {
+        this.name = name;
+    }
 	public User() {
-		super();
 	}
-
-	public User(Long id, String name, Product product) {
-		super();
+     
+	public User(Long id, String name, Set<Product> products) {
 		this.id = id;
 		this.name = name;
-		this.product = product;
+		this.products = products;
 	}
 
 	public Long getId() {
@@ -52,14 +55,14 @@ public class User {
 		this.name = name;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-//		product.setUser();
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
+    
 }
     
 	

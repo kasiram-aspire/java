@@ -7,5 +7,7 @@ import com.Application.SmartCart.Model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
+	User findByName(String name);
 	       
 }
