@@ -13,7 +13,7 @@ public class DummyServiceHealthIndicator implements HealthIndicator {
 	@Override
     public Health health() {
         // Simulate service is always UP (change to DOWN for testing)
-        boolean isServiceUp = false;
+        boolean isServiceUp = true;
         boolean isReachable = isAddressReachable(CHECK_ADDRESS);
         if (isServiceUp) {
             return Health.up().withDetail("Dummy Service", "Running").build();
