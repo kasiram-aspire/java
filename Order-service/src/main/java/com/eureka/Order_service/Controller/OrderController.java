@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,11 +55,13 @@ public class OrderController {
 						);
 	}
 	@GetMapping("/getorder")
-	public List<Order> getallorders()
+	public List<Order> getallorders( String role)
 	{
+		
 		log.info("Fetching all orders...");
 		List<Order> orders = orderrepo.findAll();
 		log.info("Total orders found: {}", orders.size());
+		
 		return orderrepo.findAll();//
 		
 	}

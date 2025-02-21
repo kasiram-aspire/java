@@ -104,7 +104,7 @@
         </exclusion>
     </exclusions>
 </dependency>
-      <dependency>
+    <!--  <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-tracing</artifactId>
 </dependency>
@@ -117,7 +117,7 @@
 <dependency>
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-reporter-brave</artifactId>
-</dependency>
+</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
