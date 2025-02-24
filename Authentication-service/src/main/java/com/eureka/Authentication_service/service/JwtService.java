@@ -107,7 +107,8 @@ public class JwtService {
 	                .compact();
 	    }
 	    public String extractUserRole(String token) {
-	        return extractClaim(token, claims -> claims.get("role", String.class));
+	    	String token1=token.substring(7);
+	        return extractClaim(token1, claims -> claims.get("role", String.class));
 	    }
 
 }

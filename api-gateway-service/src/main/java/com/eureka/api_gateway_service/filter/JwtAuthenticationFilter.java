@@ -2,6 +2,7 @@ package com.eureka.api_gateway_service.filter;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -71,23 +72,34 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                     );
 
                     logger.info("Auth Service Response: {}", response.getStatusCode());
-
+                   
                     // If token validation fails, throw an error
                     if (!response.getStatusCode().is2xxSuccessful()) {
                         logger.error("Unauthorized access: Invalid token");
                         throw new RuntimeException("Unauthorized access to application");
                     }
+                    ResponseEntity<String> responserole = template.exchange(
+                            "http://localhost:9898/auth/userrole",
+                            HttpMethod.POST,
+                            entity,
+                            String.class
+                        );
+                    String userRole = responserole.getBody();  
+                    logger.info("Extracted User Role: {}", userRole);
+                    ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                            .header("X-User-Role", userRole)
+                            .build();
+
+                        return chain.filter(exchange.mutate().request(modifiedRequest).build());
 
                 } catch (Exception e) {
                     logger.error("Exception while validating token: {}", e.getMessage());
                     throw new RuntimeException("Unauthorized access to application");
                 }
-//                String token = authHeader.substring(7);
+               
+                
                
             }
-            
-            
-            
             return chain.filter(exchange); // Continue request processing if token is valid
         });
     }

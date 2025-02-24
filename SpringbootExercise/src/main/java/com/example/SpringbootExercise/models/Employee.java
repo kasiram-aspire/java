@@ -63,7 +63,5 @@ public class Employee {
 
 	public void setDetailslist(List<Details> detailslist) {
 		this.detailslist = detailslist;
-	}
-   
-   
+	}  
 }

@@ -42,11 +42,12 @@ public class MyUserController {
 		  System.out.println("success");
 		     return "Successful";
 	    }
-//	  @PostMapping("/userrole")
-//	    public String userrole(@RequestHeader String token)
-//	    {
-//		   return jwtService.extractUserRole(token);
-//	    }
+	  @PostMapping("/userrole")
+	    public ResponseEntity<String> userrole(@RequestHeader("Authorization") String token)
+	    {
+		  String role = jwtService.extractUserRole(token);
+	        return ResponseEntity.ok(role);
+	    }
 	  @PostMapping("/refresh-token")   // refresh the token based on old token
 	    public ResponseEntity<String> refreshToken(@RequestHeader("Authorization") String oldToken) {
 	        // Extract the token (remove "Bearer " prefix)

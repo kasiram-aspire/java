@@ -118,6 +118,13 @@
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-reporter-brave</artifactId>
 </dependency>-->
+      <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <scope>provided</scope>
+</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
