@@ -62,4 +62,16 @@ public class HospitolService {
 	
 	}
 
+	public Hospitol getHospitolByName(String hospitolname) {
+		 Hospitol hospitolName=hospitolrepo.findByHospitolName(hospitolname);
+			if(hospitolName==null)
+			{
+				throw new DataAlreadyPresent("The donor:"+hospitolname+"is already registered in db");
+			}
+			else
+			{
+				return hospitolName; 
+			}    
+	}
+
 }

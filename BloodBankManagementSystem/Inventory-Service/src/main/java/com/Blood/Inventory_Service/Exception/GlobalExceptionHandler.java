@@ -1,4 +1,4 @@
-package com.bloodBank.User_Service.Exceptions;
+package com.Blood.Inventory_Service.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGlobalException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + ex.getMessage());
     }
-    @ExceptionHandler(IDNotFoundException.class)
-    public ResponseEntity<String> handleIDNotFoundException(Exception ex) {
-    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-    @ExceptionHandler(DonorNotFoundException.class)
-    public ResponseEntity<String> handledonorNotFoundException(Exception ex) {
-    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
+//    @ExceptionHandler(IDNotFoundException.class)
+//    public ResponseEntity<String> handleIDNotFoundException(Exception ex) {
+//    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//    }
+//    @ExceptionHandler(DonorNotFoundException.class)
+//    public ResponseEntity<String> handledonorNotFoundException(Exception ex) {
+//    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//    }
     
 }
 

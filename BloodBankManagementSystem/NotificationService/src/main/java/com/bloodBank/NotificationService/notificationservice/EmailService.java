@@ -19,7 +19,6 @@ public class EmailService {
     public void sendEmail(String to, String subject, String message) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(message, true); // true enables HTML content

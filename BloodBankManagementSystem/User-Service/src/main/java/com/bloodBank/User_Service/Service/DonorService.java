@@ -1,12 +1,15 @@
 package com.bloodBank.User_Service.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.bloodBank.User_Service.Exceptions.DataAlreadyPresent;
+import com.bloodBank.User_Service.Exceptions.DonorNotFoundException;
 import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Donors;
 import com.bloodBank.User_Service.Repo.DonorsRepository;
@@ -22,16 +25,16 @@ public class DonorService {
 		if(donorName==null)
 		{
 			donorrepo.save(donor);
-			//String emailServiceUrl = "http://localhost:8083/api/email/send"; // Replace with actual URL of email service
+			String emailServiceUrl = "http://localhost:8083/api/email/send"; // Replace with actual URL of email service
              String message="Your profile is added to the blood bank db successfully";
              String subject="welcome to blood bank";
              WebClient webClient = WebClient.builder()
-            	        .baseUrl("http://localhost:8083") // ✅ Set base URL
+            	        .baseUrl("http://localhost:8083") //Set base URL
             	        .build();
 
             	String response = webClient.post()
             	        .uri(uriBuilder -> uriBuilder
-            	                .path("/api/email/send") // ✅ Use only the relative path
+            	                .path("/api/email/send") // Use only the relative path
             	                .queryParam("to", donor.getEmailId())
             	                .queryParam("subject", subject)
             	                .queryParam("message", message)
@@ -82,5 +85,35 @@ public class DonorService {
 		return donorrepo.save(existingDonor);
 	}
 
+	public List<Donors> getDonorByBloodGroupName(String bloodgroup) {
+		    List<Donors> donor=new ArrayList<>();
+		    donor=donorrepo.findByBloodGroup(bloodgroup);
+		    if(donor==null)
+		    {
+		    	 throw new DonorNotFoundException("The particular:"+bloodgroup+" not found");
+		    }
+		    else
+		    {
+		    	return donor;
+		    }
+		
+	}
+
+	public List<Donors> getDonorByBloodGroupNameAndAge(String bloodgroup, Integer age) {
+		List<Donors> donors = donorrepo.findByBloodGroup(bloodgroup);
+	    
+	    if (donors.isEmpty()) {
+	        throw new DonorNotFoundException("The particular blood group: " + bloodgroup + " not found");
+	    }
+
+	    return donors.stream()
+	                 .filter(donor -> donor.getAge() >= age)
+	                 .collect(Collectors.toList());
+	}
+
+	public Donors getDonorByname(String name) {
+		 Donors donorName=donorrepo.findByDonorName(name);
+		return donorName;
+	}
 
 }

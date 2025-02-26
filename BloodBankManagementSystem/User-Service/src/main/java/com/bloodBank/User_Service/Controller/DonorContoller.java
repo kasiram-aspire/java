@@ -40,4 +40,20 @@ public class DonorContoller {
 	{
 		return ResponseEntity.ok(donorservice.update(donor));
 	}
+	@PostMapping("/getByBloodGrouName/{Bloodgroup}")
+	public ResponseEntity<List<Donors>> getDonorByBloodGroupName(@PathVariable String Bloodgroup)
+	{
+		return ResponseEntity.ok(donorservice.getDonorByBloodGroupName(Bloodgroup));
+	}
+	@PostMapping("/getByBloodGrouNameAndAge/{Bloodgroup}/{Age}")
+	public ResponseEntity<List<Donors>> getDonorByBloodGroupNameAndAge(@PathVariable String Bloodgroup,@PathVariable Integer Age)
+	{
+		return ResponseEntity.ok(donorservice.getDonorByBloodGroupNameAndAge(Bloodgroup,Age));
+	}
+	@GetMapping("/getByName/{name}")
+	public ResponseEntity<Donors> getDonorByBloodGroupNameAndAge(@PathVariable String name)
+	{
+		return ResponseEntity.ok(donorservice.getDonorByname(name));
+	}
+	
 }

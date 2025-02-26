@@ -42,4 +42,9 @@ public class HospitoController {
 	{
 		 return ResponseEntity.ok( hospitolservice.updateHospitol(hospitol));
 	}
+	@PostMapping("/getHospitolbyName/{hospitolname}")
+	public ResponseEntity<Hospitol> updateHospitol(@PathVariable String hospitolname)
+	{
+		 return ResponseEntity.ok( hospitolservice.getHospitolByName(hospitolname));
+	}
 }
