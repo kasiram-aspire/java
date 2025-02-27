@@ -20,37 +20,37 @@ public class DonorContoller {
 	@Autowired 
 	DonorService donorservice;
     
-	@PostMapping("/addDonor")
+	@PostMapping("/addDonor")   // add donor to donor data base
 	public ResponseEntity<Donors> addDonor(@RequestBody Donors donor)
 	{
 		   return ResponseEntity.ok(donorservice.addDonors(donor));
 	}
-	@GetMapping("/getDonor")
+	@GetMapping("/getDonor")     // get donor from donor database 
 	public ResponseEntity<List<Donors>> getDonors()
 	{
 		 return ResponseEntity.ok(donorservice.getDonors());
 	}
-	@GetMapping("/getDonorbyId/{id}")
+	@GetMapping("/getDonorbyId/{id}")  // get the donor by id
 	public ResponseEntity<Donors> getDonorById(@PathVariable Long id)
 	{
 		 return ResponseEntity.ok(donorservice.getById(id));
 	}
-	@PostMapping("/update")
+	@PostMapping("/update")   // update the donor DB
 	public ResponseEntity<Donors> updateDonor(@RequestBody Donors donor)
 	{
 		return ResponseEntity.ok(donorservice.update(donor));
 	}
-	@PostMapping("/getByBloodGrouName/{Bloodgroup}")
+	@PostMapping("/getByBloodGrouName/{Bloodgroup}")  //get donor by blood group
 	public ResponseEntity<List<Donors>> getDonorByBloodGroupName(@PathVariable String Bloodgroup)
 	{
 		return ResponseEntity.ok(donorservice.getDonorByBloodGroupName(Bloodgroup));
 	}
-	@PostMapping("/getByBloodGrouNameAndAge/{Bloodgroup}/{Age}")
+	@PostMapping("/getByBloodGrouNameAndAge/{Bloodgroup}/{Age}") // get by blood group and age
 	public ResponseEntity<List<Donors>> getDonorByBloodGroupNameAndAge(@PathVariable String Bloodgroup,@PathVariable Integer Age)
 	{
 		return ResponseEntity.ok(donorservice.getDonorByBloodGroupNameAndAge(Bloodgroup,Age));
 	}
-	@GetMapping("/getByName/{name}")
+	@GetMapping("/getByName/{name}") // get donor by donor name
 	public ResponseEntity<Donors> getDonorByBloodGroupNameAndAge(@PathVariable String name)
 	{
 		return ResponseEntity.ok(donorservice.getDonorByname(name));
