@@ -40,7 +40,8 @@ public class InventoryService {
         // call the user service to get donor by name for remaining valuse to set
         Donordto donordto = webClientBuilder.build()
                 .get()
-                .uri("http://USER-SERVICE/user/donor/getByName/" + donorname)  
+                .uri("http://USER-SERVICE/user/donor/getByName/" + donorname)
+                .header("X-User-Role","ADMIN")
                 .retrieve()
                 .bodyToMono(Donordto.class)
                 .block();  //  Blocks until response is received

@@ -57,7 +57,8 @@ public class RequestService {
 		  statusrepo.save(statusobj);
 		  String statusOfDeletedItems = webClientBuilder.build()
 	                .post()
-	                .uri("http://INVENTORY-SERVICE/inventroy/deleteUserFromInventory/"+name)  
+	                .uri("http://INVENTORY-SERVICE/inventroy/deleteUserFromInventory/"+name)
+	                .header("X-User-Role","ADMIN")
 	                .retrieve()
 	                .bodyToMono(String.class)
 	                .block();
@@ -78,7 +79,8 @@ public class RequestService {
 	public String requestNotificationForBlood(String bloodGroup) {
 		List<Donordto> donordtoList = webClientBuilder.build()
 			    .post()
-			    .uri("http://USER-SERVICE/user/donor/getByBloodGrouName/" + bloodGroup)  
+			    .uri("http://USER-SERVICE/user/donor/getByBloodGrouName/" + bloodGroup)
+			    .header("X-User-Role","ADMIN")
 			    .retrieve()
 			    .bodyToMono(new ParameterizedTypeReference<List<Donordto>>() {})
 			    .block();
@@ -100,7 +102,6 @@ public class RequestService {
         	        .retrieve()
         	        .bodyToMono(String.class)
         	        .block(); // Blocking for simplicity
-
         	     System.out.println(response);//
         	     return response;
 		}
