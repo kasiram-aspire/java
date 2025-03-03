@@ -90,6 +90,12 @@
     <artifactId>slf4j-api</artifactId>
     <version>2.0.9</version>
      </dependency>
+     <!-- Testing dependency --> 
+           <dependency>
+			  <groupId>org.mockito</groupId>
+			  <artifactId>mockito-core</artifactId>
+			  <scope>test</scope>
+		    </dependency>	
      <!-- Bridge SLF4J to Log4j2 -->
    <dependency>
     <groupId>org.apache.logging.log4j</groupId>
@@ -110,8 +116,13 @@
         </exclusion>
     </exclusions>
       </dependency>
-      
-      
+
+
+    <dependency>
+    	<groupId>com.bloodBank</groupId>
+    	<artifactId>ApiGatewayApplication</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

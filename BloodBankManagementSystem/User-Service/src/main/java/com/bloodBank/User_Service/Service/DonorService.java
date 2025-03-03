@@ -70,6 +70,7 @@ public class DonorService {
 	}
 
 	public Donors update(Donors donor) {
+
 		Donors existingDonor=donorrepo.findById(donor.getId()).orElse(null);
 		if(existingDonor==null)
 		{
@@ -81,14 +82,13 @@ public class DonorService {
 		existingDonor.setDonorName(donor.getDonorName());
 		existingDonor.setEmailId(donor.getEmailId());
 		existingDonor.setPhoneno(donor.getPhoneno());
-		
 		return donorrepo.save(existingDonor);
 	}
 
 	public List<Donors> getDonorByBloodGroupName(String bloodgroup) {
 		    List<Donors> donor=new ArrayList<>();
 		    donor=donorrepo.findByBloodGroup(bloodgroup);
-		    if(donor==null)
+		    if(donor.isEmpty())
 		    {
 		    	 throw new DonorNotFoundException("The particular:"+bloodgroup+" not found");
 		    }
