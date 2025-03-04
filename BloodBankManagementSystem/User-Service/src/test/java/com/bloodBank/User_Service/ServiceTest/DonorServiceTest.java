@@ -2,7 +2,6 @@ package com.bloodBank.User_Service.ServiceTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -103,7 +102,7 @@ public class DonorServiceTest {
 	    	      donorlist.add(newDonor);
 	              when(donorrepo.findAll()).thenReturn(donorlist);
 	              List<Donors> result = donorService.getDonors();
-	              assertEquals(2, result.size());
+	              assertEquals((short)2,(short) result.size());
 	              assertEquals(donorlist, result);
 	    }
 	    @Test

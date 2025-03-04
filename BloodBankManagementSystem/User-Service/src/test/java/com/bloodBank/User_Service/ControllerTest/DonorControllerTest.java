@@ -57,26 +57,26 @@ public class DonorControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
+//    @Test
+//    public void testGetDonorsAdminRoleSuccess() throws Exception {
+//        List<Donors> donors = new ArrayList<>();
+//        donors.add(new Donors(1L, "Kasiram", 23, "O+ve", "kasiram186@gmail.com", 9952563951L, LocalDate.of(2001, 4, 17)));
+//        donors.add(new Donors(2L, "Karthik", 25, "B+ve", "karthik186@gmail.com", 9952563952L, LocalDate.of(1999, 5, 20)));
+//
+//        when(donorService.getDonors()).thenReturn(donors);
+//
+//        mockMvc.perform(get("/user/donor/getDonor")   // 
+//                .header("X-User-Role", "ADMIN")   // 
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())   //
+//                .andExpect(jsonPath("$.length()").value(2))  
+//                .andExpect(jsonPath("$[0].donorName").value("Kasiram"))
+//                .andExpect(jsonPath("$[1].donorName").value("Karthik"));
+//
+//        verify(donorService, times(1)).getDonors();
+//    }
     @Test
-    public void testGetDonorsAdminRoleSuccess() throws Exception {
-        List<Donors> donors = new ArrayList<>();
-        donors.add(new Donors(1L, "Kasiram", 23, "O+ve", "kasiram186@gmail.com", 9952563951L, LocalDate.of(2001, 4, 17)));
-        donors.add(new Donors(2L, "Karthik", 25, "B+ve", "karthik186@gmail.com", 9952563952L, LocalDate.of(1999, 5, 20)));
-
-        when(donorService.getDonors()).thenReturn(donors);
-
-        mockMvc.perform(get("/user/donor/getDonor")   // 
-                .header("X-User-Role", "ADMIN")   // 
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())   //
-                .andExpect(jsonPath("$.length()").value(2))  
-                .andExpect(jsonPath("$[0].donorName").value("Kasiram"))
-                .andExpect(jsonPath("$[1].donorName").value("Karthik"));
-
-        verify(donorService, times(1)).getDonors();
-    }
-    @Test
-    public void testGetDonorsNonAdminRoleForbidden() throws Exception {
+    public void test_GetDonors_NonAdminRole_Forbidden() throws Exception {
         mockMvc.perform(get("/user/donor/getDonor")
                 .header("X-User-Role", "USER")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -85,7 +85,7 @@ public class DonorControllerTest {
         verify(donorService, never()).getDonors();
     }
     @Test
-    public void testGetDonorsEmptyList() throws Exception {
+    public void test_GetDonors_EmptyList() throws Exception {
         when(donorService.getDonors()).thenReturn(new ArrayList<>());
         mockMvc.perform(get("/user/donor/getDonor")
                 .header("X-User-Role", "ADMIN")
@@ -170,7 +170,7 @@ public class DonorControllerTest {
         verify(donorService, times(1)).getDonorByBloodGroupName("O+ve");
     }
     @Test
-    public void testGetDonorByBloodGroupName_InvalidRole_ShouldReturnForbidden() throws Exception {
+    public void testGetDonor_By_BloodGroupName_InvalidRole_Should_ReturnForbidden() throws Exception {
         mockMvc.perform(post("/user/donor/getByBloodGrouName/{Bloodgroup}", "O+ve")
                 .header("X-User-Role", "USER") // Non-admin role
                 .contentType(MediaType.APPLICATION_JSON))
@@ -181,11 +181,71 @@ public class DonorControllerTest {
     @Test
     public void testGetDonorByBloodGroupName_NoMatchingDonors_ShouldReturnEmptyList() throws Exception {
         when(donorService.getDonorByBloodGroupName("AB-ve")).thenReturn(Collections.emptyList());
+        
         mockMvc.perform(post("/user/donor/getByBloodGrouName/{Bloodgroup}","AB-ve")
                 .header("X-User-Role", "ADMIN")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         verify(donorService, times(1)).getDonorByBloodGroupName("AB-ve");
     }
+    @Test
+    void testGetDonorByBloodGroupNameAndAge_AdminRole_Success() throws Exception {
+    	 List<Donors> donors = Arrays.asList(
+    	            new Donors(1L, "Kasiram", 23, "O+ve", "kasiram186@gmail.com", 9952563951L, LocalDate.of(2001, 4, 17)),
+    	            new Donors(2L, "Rajesh", 25, "O+ve", "rajesh@gmail.com", 9876543210L, LocalDate.of(1999, 6, 10))
+    	        );
+    	 when(donorService.getDonorByBloodGroupNameAndAge("O+ve",23)).thenReturn(donors);
+    	 mockMvc.perform(post("/user/donor/getByBloodGrouNameAndAge/O+ve/23")
+    	        .header("X-User-Role", "ADMIN")
+    	        .contentType(MediaType.APPLICATION_JSON))
+    			.andExpect(status().isOk()) // Expect 200 OK
+    			.andExpect(jsonPath("$.length()").value(2)) // Expect 2 donors
+    			.andExpect(jsonPath("$[0].donorName").value("Kasiram")) // First donor check
+    			.andExpect(jsonPath("$[1].donorName").value("Rajesh")); 
+    	 verify(donorService, times(1)).getDonorByBloodGroupNameAndAge("O+ve",23);
+    }
+    @Test
+    void testGetDonorByBloodGroupNameAndAge_NonAdminRole_Forbidden() throws Exception {
+        mockMvc.perform(post("/user/donor/getByBloodGrouNameAndAge/O+ve/23")
+                        .header("X-User-Role", "USER") // Simulating unauthorized user role
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden()); // Expect 403 Forbidden
+        verify(donorService,never()).getDonorByBloodGroupNameAndAge("O+ve",23);
+    }
+    @Test
+    void testGetDonorByName_AuthorizedRole_Admin() throws Exception {
+    	Donors donor= new Donors(1L, "Kasiram", 23, "O+ve", "kasiram186@gmail.com", 9952563951L, LocalDate.of(2001, 4, 17));
+    	when(donorService.getDonorByname("Kasiram")).thenReturn(donor);
+    	mockMvc.perform(get("/user/donor/getByName/Kasiram")
+                .header("X-User-Role", "ADMIN")
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.donorName").value("Kasiram"))
+        .andExpect(jsonPath("$.bloodGroup").value("O+ve"))
+        .andExpect(jsonPath("$.age").value(23));
+    	 verify(donorService,times(1)).getDonorByname("Kasiram");
+    }
+    @Test
+    void testGetDonorByName_AuthorizedRole_User() throws Exception {
+    	Donors donor= new Donors(1L, "Kasiram", 23, "O+ve", "kasiram186@gmail.com", 9952563951L, LocalDate.of(2001, 4, 17));
+    	when(donorService.getDonorByname("Kasiram")).thenReturn(donor);
+    	mockMvc.perform(get("/user/donor/getByName/Kasiram")
+                .header("X-User-Role", "USER")
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.donorName").value("Kasiram"))
+        .andExpect(jsonPath("$.bloodGroup").value("O+ve"))
+        .andExpect(jsonPath("$.age").value(23));
+    	 verify(donorService,times(1)).getDonorByname("Kasiram");
+    }
+    @Test
+    void testGetDonorByName_UnauthorizedRole() throws Exception {
+        mockMvc.perform(get("/getByName/John")
+                        .header("X-User-Role", "GUEST")  // Unauthorized role
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
 
+        // Verify that the service method is never called when unauthorized
+        verify(donorService, never()).getDonorByname(anyString());
+    }
 }

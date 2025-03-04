@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bloodBank.User_Service.Model.Donors;
+import com.bloodBank.User_Service.Exceptions.DataAlreadyPresent;
+import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Hospitol;
-import com.bloodBank.User_Service.Service.DonorService;
 import com.bloodBank.User_Service.Service.HospitolService;
 
 @RestController
@@ -26,7 +27,17 @@ public class HospitoController {
 	private static final Logger log = LoggerFactory.getLogger(HospitoController .class);
 	@Autowired 
 	 HospitolService hospitolservice;
-    
+	
+	@ExceptionHandler(DataAlreadyPresent.class)
+	public ResponseEntity<String> handleDataAlreadyPresentException(DataAlreadyPresent ex) {
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+	}
+	
+	 @ExceptionHandler(IDNotFoundException.class)
+	    public ResponseEntity<String> handleIDNotFoundException(Exception ex) {
+	    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	    }
+	
 	@PostMapping("/addHospitol")
 	public ResponseEntity<Hospitol> addhospitol(@RequestHeader("X-User-Role") String role,@RequestBody Hospitol hospitol)
 	{
@@ -84,7 +95,7 @@ public class HospitoController {
 	@PostMapping("/getHospitolbyName/{hospitolname}")
 	public ResponseEntity<Hospitol> updateHospitol(@RequestHeader("X-User-Role") String role,@PathVariable String hospitolname)
 	{
-		log.info("Received request to fetch hospital by name: {}", hospitolname);
+		log.info("Received request to fetch hospital by name:{}", hospitolname);
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
