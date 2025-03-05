@@ -68,7 +68,6 @@ public class RequestController {
    @PostMapping("/setStatusrequest/{name}/{status}/{Hospitolname}")  //set the blood status for hospitol request
    public ResponseEntity<Status> setTheRequest(@RequestHeader("X-User-Role") String role,@PathVariable String name,@PathVariable String status,@PathVariable String Hospitolname)
    {
-
        log.info("Received request to update status for '{}' in hospital '{}' to '{}'", name,Hospitolname, status);
 	   if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
@@ -96,17 +95,13 @@ public class RequestController {
    @PostMapping("/RequestNotificationForBlood/{bloodGroup}")  // send email notification to related blood group people
     public ResponseEntity<String> requestNotificationForBlood(@RequestHeader("X-User-Role") String role,@PathVariable String bloodGroup)
     {
-
        log.info("Received request to send blood notification for blood group '{}'", bloodGroup);
 	   if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 	    }
-
-
        String notificationStatus = requestservice.requestNotificationForBlood(bloodGroup);
        log.info("Blood request notification sent successfully for blood group '{}'", bloodGroup);
        return ResponseEntity.ok(notificationStatus);
     }
-     
 }

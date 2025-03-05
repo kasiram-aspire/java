@@ -1,6 +1,9 @@
 package com.Blood.Inventory_Service.Model;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,5 +26,6 @@ public class Inventory {
     private String bloodGroup;
     private Integer Age;
     private Long UnitOfBlood;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate BloodGivenDate;
 }

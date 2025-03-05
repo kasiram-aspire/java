@@ -291,7 +291,7 @@ public class InventoryServiceTest {
 
 	        // Call the method
 	        boolean result = inventoryservice.deleteUserFromInventory("kasiram");
-
+	        
 	        // Verify the results
 	        assertTrue(result);
 	        assertEquals(3L, mockBloodCount.getUnits()); // Check if blood count is decremented correctly
@@ -302,6 +302,7 @@ public class InventoryServiceTest {
 	        verify(bloodcountrepo, times(1)).save(mockBloodCount);
 	        verify(inventoryrepo, times(1)).delete(mockInventory);
 	    }
+	    
 	    @Test
 	    public void testDeleteUserFromInventory_UserDoesNotExist_ReturnsFalse() {
 	        // Mock repository returning null (donor not found)
