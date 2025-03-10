@@ -1,5 +1,6 @@
 package com.Blood.Inventory_Service.Controller;
 
+import java.awt.geom.CubicCurve2D.Double;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -48,7 +49,6 @@ public class InventoryController {
 	@GetMapping("/getDonor")
 	public ResponseEntity<List<Inventory>> getDonarfromTheInventory(@RequestHeader("X-User-Role") String role)
 	{	
-
         log.info("Received request to fetch all donors from inventory.");
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
@@ -120,6 +120,27 @@ public class InventoryController {
         return ResponseEntity.ok(updatedInventory);
 
 	}
+	@GetMapping("/getDonorsListGraterThanRequiredAge")
+	 public ResponseEntity<List<Inventory>>getDonorsListGraterThanRequiredAge(@RequestHeader("X-User-Role") String role,@RequestParam Integer age)
+	 {
+		if (!"ADMIN".equalsIgnoreCase(role)) {
+	        log.warn("Unauthorized access attempt by role: {}", role);
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	    }
+		 List<Inventory> consolidatedList=inventoryservice.getDonorsListGraterThanRequiredAge(age);
+		return ResponseEntity.ok(consolidatedList);
+	 }
+	@GetMapping("/getDonorsListLesserThanRequiredAge")
+	 public ResponseEntity<List<Inventory>>getDonorsListLesserThanRequiredAge(@RequestHeader("X-User-Role") String role,@RequestParam Integer age)
+	 {
+		if (!"ADMIN".equalsIgnoreCase(role)) {
+	        log.warn("Unauthorized access attempt by role: {}", role);
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	    }
+		 List<Inventory> consolidatedList=inventoryservice.getDonorsListLesserThanRequiredAge(age);
+		return ResponseEntity.ok(consolidatedList);
+	 }
+	
 	
 	
 }

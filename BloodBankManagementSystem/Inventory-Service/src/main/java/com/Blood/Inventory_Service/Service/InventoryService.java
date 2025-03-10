@@ -2,6 +2,7 @@ package com.Blood.Inventory_Service.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.Blood.Inventory_Service.Exception.DataAlreadyPresent;
 import com.Blood.Inventory_Service.Exception.IDNotFoundException;
+import com.Blood.Inventory_Service.Exception.ResultNotFoundExeption;
 import com.Blood.Inventory_Service.Model.BloodCount;
 import com.Blood.Inventory_Service.Model.Inventory;
 import com.Blood.Inventory_Service.Repository.BloodCountRepository;
@@ -126,5 +128,35 @@ public class InventoryService {
 	    }
    	    return existingInventory;
 		 
+	}
+	public List<Inventory> getDonorsListGraterThanRequiredAge(Integer age) {
+		 
+	     List<Inventory> obtainedList=inventoryrepo.findAll();
+	     List<Inventory> finalizedList=obtainedList.stream()
+	    		                                   .filter(obtList->obtList.getAge()>=age)
+	    		                                   .collect(Collectors.toList());
+	    if(finalizedList.isEmpty())
+	    {
+	    	throw new ResultNotFoundExeption("No donors found on the age type:"+" "+age );
+	    }
+	    else
+	    {
+		    return finalizedList;
+	    }
+	}
+	
+	public List<Inventory> getDonorsListLesserThanRequiredAge(Integer age) {
+		  List<Inventory> obtainedList=inventoryrepo.findAll();
+		     List<Inventory> finalizedList=obtainedList.stream()
+		    		                                   .filter(obtList->obtList.getAge()<=age)
+		    		                                   .collect(Collectors.toList());
+		    if(finalizedList.isEmpty())
+		    {
+		    	throw new ResultNotFoundExeption("No donors found on the age type"+" "+age);
+		    }
+		    else
+		    {
+			    return finalizedList;
+		    }
 	}
 }

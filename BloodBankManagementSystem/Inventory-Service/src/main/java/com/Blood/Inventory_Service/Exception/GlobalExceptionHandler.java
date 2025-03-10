@@ -21,10 +21,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleIDNotFoundException(Exception ex) {
     	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
-//    @ExceptionHandler(DonorNotFoundException.class)
-//    public ResponseEntity<String> handledonorNotFoundException(Exception ex) {
-//    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-//    }
+    @ExceptionHandler(ResultNotFoundExeption.class)
+    public ResponseEntity<String> handleResultNotFoundExeption(Exception ex) {
+    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+      
     
 }
 
