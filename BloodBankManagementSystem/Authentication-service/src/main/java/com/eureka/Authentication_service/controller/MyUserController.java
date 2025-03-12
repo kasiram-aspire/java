@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eureka.Authentication_service.Model.MyUser;
 import com.eureka.Authentication_service.service.JwtService;
 import com.eureka.Authentication_service.service.MyUserService;
-
 
 @Component
 @RestController
@@ -56,7 +54,6 @@ public class MyUserController {
 	        } else {
 	        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token format!");
 	        }
-
 	        // Generate new token
 	        return ResponseEntity.ok(jwtService.refreshToken(oldToken));
 	    }
