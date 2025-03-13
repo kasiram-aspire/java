@@ -66,7 +66,7 @@ public class HospitolService {
 		 Hospitol hospitolName=hospitolrepo.findByHospitolName(hospitolname);
 			if(hospitolName==null)
 			{
-				throw new DataAlreadyPresent("The donor:"+hospitolname+"is already registered in db");
+				throw new DataAlreadyPresent("The "+hospitolname+"is Not present in data base");
 			}
 			else
 			{
@@ -74,5 +74,4 @@ public class HospitolService {
 			}    
 	}
 	
-
 }
