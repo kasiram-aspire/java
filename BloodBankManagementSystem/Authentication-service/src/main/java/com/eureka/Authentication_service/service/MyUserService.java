@@ -1,5 +1,8 @@
 package com.eureka.Authentication_service.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +28,10 @@ public class MyUserService {
     private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);//(ROUNDS,TYPE{2A,2B,2Y})
     
 	public MyUser addUserPassword(MyUser users) {
+		if(users.getRole().equalsIgnoreCase("ADMIN") || users.getRole().equalsIgnoreCase("SuperAdmin"))
+		{
+			throw new UserAlreadyExistsException("role:"+users.getRole()+" cant add manually");
+		}
 		users.setPassword(encoder.encode(users.getPassword()));
 		MyUser u=userrepo.findByUsername(users.getUsername());
 		 if (u!=null) {
@@ -55,6 +62,23 @@ public class MyUserService {
 		String username=jwtservice.extractUserName(token1);
 	 UserDetails userDetails= context.getBean(MyUserDetailService.class).loadUserByUsername(username);
 		jwtservice.validateToken(token1,userDetails);
+	}
+
+	public List<MyUser> addUsersByCsv(List<MyUser> users) {
+	    List<MyUser> savedUsers = new ArrayList<>();
+	    
+	    for (MyUser user : users) {
+	        MyUser existingUser = userrepo.findByUsername(user.getUsername());
+
+	        if (existingUser != null) {
+	            System.out.println("Duplicate user skipped: " + user.getUsername()); // Log instead of throwing
+	            continue;
+	        }
+
+	        user.setPassword(encoder.encode(user.getPassword()));
+	        savedUsers.add(userrepo.save(user));
+	    }
+	    return savedUsers;
 	}
 
 }

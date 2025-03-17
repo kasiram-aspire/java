@@ -1,5 +1,8 @@
 package com.eureka.Authentication_service.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -7,8 +10,14 @@ public class MyUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @CsvBindByName(column = "username")
+    @JsonProperty("username")
     private String username;
+    @CsvBindByName(column = "password")
+    @JsonProperty("password")
     private String password;
+    @CsvBindByName(column = "role")
+    @JsonProperty("role")
     private String role; // New field for role
     
 	public MyUser() {

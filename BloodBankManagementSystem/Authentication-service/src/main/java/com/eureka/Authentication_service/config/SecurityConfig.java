@@ -43,7 +43,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(request->request
 				                        .requestMatchers("auth/adduser","auth/login","auth/refresh-token","auth/validatetoken")
 				                        .permitAll() //it permits the adduser and login without username and password
-//				                        .requestMatchers("/emp/get").hasAnyAuthority("ADMIN", "USER") // Both ADMIN and USER can view employees
+				                        .requestMatchers("/auth/uploadUsers").hasAnyAuthority("SuperAdmin") // Both ADMIN and USER can view employees
 				                        .anyRequest().authenticated())
 		//this generates login
 		//.formLogin(Customizer.withDefaults())
