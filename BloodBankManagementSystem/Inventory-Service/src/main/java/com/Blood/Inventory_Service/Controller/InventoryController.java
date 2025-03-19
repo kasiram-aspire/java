@@ -38,7 +38,7 @@ public class InventoryController {
         log.info("Received request to add donor '{}' with {} units of blood on {}", donorname, UnitOfBlood, BloodGivenDate);
 		if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
         Inventory inventory = inventoryservice.addDonorToTheInventory(donorname, UnitOfBlood, BloodGivenDate);
         log.info("Donor '{}' added successfully to inventory.", donorname);
@@ -52,7 +52,7 @@ public class InventoryController {
         log.info("Received request to fetch all donors from inventory.");
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
         List<Inventory> donors = inventoryservice.getDonorFromInventroy();
         log.info("Returning {} donors from inventory.", donors.size());
@@ -65,7 +65,7 @@ public class InventoryController {
         log.info("Received request to fetch total blood count.");
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
 
         List<BloodCount> bloodCounts = inventoryservice.getTotalAmountOfBlood();
@@ -80,7 +80,7 @@ public class InventoryController {
 		log.info("Received request to fetch blood count for group '{}'", bloodgroup);
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
 		BloodCount count = inventoryservice.getCountBasedOnBloodGroup(bloodgroup);
         log.info("Returning blood count for group '{}': {}", bloodgroup, count);
@@ -93,7 +93,7 @@ public class InventoryController {
 		log.info("Received request to delete donor '{}' from inventory.", donorname);
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
         boolean deleted = inventoryservice.deleteUserFromInventory(donorname);
         if (deleted) {
@@ -113,7 +113,7 @@ public class InventoryController {
         log.info("Received request to update inventory record: {}", inventory);
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
         Inventory updatedInventory = inventoryservice.updateInventroy(inventory);
         log.info("Inventory record updated successfully: {}", updatedInventory);
@@ -125,7 +125,7 @@ public class InventoryController {
 	 {
 		if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
 		 List<Inventory> consolidatedList=inventoryservice.getDonorsListGraterThanRequiredAge(age);
 		return ResponseEntity.ok(consolidatedList);
@@ -135,7 +135,7 @@ public class InventoryController {
 	 {
 		if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
 		 List<Inventory> consolidatedList=inventoryservice.getDonorsListLesserThanRequiredAge(age);
 		return ResponseEntity.ok(consolidatedList);
