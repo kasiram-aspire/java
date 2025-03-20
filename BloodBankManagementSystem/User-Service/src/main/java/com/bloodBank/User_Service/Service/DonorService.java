@@ -112,6 +112,7 @@ public class DonorService {
 	}
 
 	public Donors getDonorByname(String name) {
+		System.out.println(name);
 		 Donors donorName=donorrepo.findByDonorName(name);
 		return donorName;
 	}

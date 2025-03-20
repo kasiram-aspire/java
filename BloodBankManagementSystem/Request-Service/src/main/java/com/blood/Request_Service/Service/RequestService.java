@@ -43,18 +43,22 @@ public class RequestService {
 		  Status statusobj=new Status();
 		  try
 		  {
-		 Donordto donordto = webClientBuilder.build()
-	                .get()
-	                .uri("http://USER-SERVICE/user/donor/getByName/"+name)  
-	                .retrieve()
-	                .bodyToMono(Donordto.class)
-	                .block();
+			  System.out.println(name);
+			  Donordto donordto = webClientBuilder.build()
+		                .get()
+		                .uri("http://USER-SERVICE/user/donor/getByName/" + name)
+		                .header("X-User-Role","ADMIN")
+		                .retrieve()
+		                .bodyToMono(Donordto.class)
+		                .block();  
 		  statusobj.setAge(donordto.getAge());
 		  statusobj.setDonorName(name);
 		  statusobj.setBloodGroup(donordto.getBloodGroup());
 		  statusobj.setHospitolname(hospitolname);
 		  statusobj.setStatus(status);
 		  statusrepo.save(statusobj);
+		  if(status.equals("Accepted"))
+		  {
 		  String statusOfDeletedItems = webClientBuilder.build()
 	                .post()
 	                .uri("http://INVENTORY-SERVICE/inventroy/deleteUserFromInventory/"+name)
@@ -63,6 +67,7 @@ public class RequestService {
 	                .bodyToMono(String.class)
 	                .block();
 		  System.out.println(statusOfDeletedItems);
+		  }
 		  return statusobj;
 		  }
 		  
