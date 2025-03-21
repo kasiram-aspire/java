@@ -22,9 +22,9 @@ import com.bloodBank.User_Service.Model.Hospitol;
 import com.bloodBank.User_Service.Service.HospitolService;
 
 @RestController
-@RequestMapping("/user/hospitol")
-public class HospitoController {
-	private static final Logger log = LoggerFactory.getLogger(HospitoController .class);
+@RequestMapping("/user/hospital")
+public class HospitalController {
+	private static final Logger log = LoggerFactory.getLogger(HospitalController .class);
 	@Autowired 
 	 HospitolService hospitolservice;
 	
@@ -38,21 +38,21 @@ public class HospitoController {
 	    	 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	    }
 	
-	@PostMapping("/addHospitol")
-	public ResponseEntity<Hospitol> addhospitol(@RequestHeader("X-User-Role") String role,@RequestBody Hospitol hospitol)
+	@PostMapping("/addHospital")
+	public ResponseEntity<Hospitol> addhospital(@RequestHeader("X-User-Role") String role,@RequestBody Hospitol hospital)
 	{
 
-        log.info("Received request to add hospital: {}", hospitol);
+        log.info("Received request to add hospital: {}", hospital);
 		if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 	    }
-        Hospitol savedHospitol = hospitolservice.addHospitol(hospitol);
+        Hospitol savedHospitol = hospitolservice.addHospitol(hospital);
         log.info("Hospital added successfully: {}", savedHospitol);
         return ResponseEntity.ok(savedHospitol);
 	}
-	@GetMapping("/getHospitol")
-	public ResponseEntity<List<Hospitol>> getHospitoldetails(@RequestHeader("X-User-Role") String role)
+	@GetMapping("/getHospital")
+	public ResponseEntity<List<Hospitol>> getHospitaldetails(@RequestHeader("X-User-Role") String role)
 	{
 
         log.info("Received request to fetch all hospitals.");
@@ -64,8 +64,8 @@ public class HospitoController {
 	        log.info("Returning {} hospitals", hospitols.size());
 	        return ResponseEntity.ok(hospitols);
 	}
-	@GetMapping("/getHospitolbyId/{id}")
-	public ResponseEntity<Hospitol>getHospitolById(@RequestHeader("X-User-Role") String role,@PathVariable Long id)
+	@GetMapping("/getHospitalbyId/{id}")
+	public ResponseEntity<Hospitol>getHospitalById(@RequestHeader("X-User-Role") String role,@PathVariable Long id)
 	{
 
         log.info("Received request to fetch hospital with ID: {}", id);
@@ -80,27 +80,27 @@ public class HospitoController {
 
 	}
 	@PostMapping("/update")
-	public ResponseEntity<Hospitol> updateHospitol(@RequestHeader("X-User-Role") String role,@RequestBody Hospitol hospitol)
+	public ResponseEntity<Hospitol> updateHospital(@RequestHeader("X-User-Role") String role,@RequestBody Hospitol hospital)
 	{
-        log.info("Received request to update hospital: {}", hospitol);
+        log.info("Received request to update hospital: {}", hospital);
 		if (!"ADMIN".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 	    }
-        Hospitol updatedHospitol = hospitolservice.updateHospitol(hospitol);
+        Hospitol updatedHospitol = hospitolservice.updateHospitol(hospital);
         log.info("Hospital updated successfully: {}", updatedHospitol);
         return ResponseEntity.ok(updatedHospitol);
 
 	}
-	@PostMapping("/getHospitolbyName/{hospitolname}")
-	public ResponseEntity<Hospitol> updateHospitol(@RequestHeader("X-User-Role") String role,@PathVariable String hospitolname)
+	@PostMapping("/getHospitalbyName/{hospitalname}")
+	public ResponseEntity<Hospitol> updateHospitalByName(@RequestHeader("X-User-Role") String role,@PathVariable String hospitalname)
 	{
-		log.info("Received request to fetch hospital by name:{}", hospitolname);
+		log.info("Received request to fetch hospital by name:{}", hospitalname);
 		if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
 	        log.warn("Unauthorized access attempt by role: {}", role);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 	    }
-        Hospitol hospitol = hospitolservice.getHospitolByName(hospitolname);
+        Hospitol hospitol = hospitolservice.getHospitolByName(hospitalname);
         log.info("Returning hospital: {}", hospitol);
         return ResponseEntity.ok(hospitol);
 

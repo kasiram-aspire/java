@@ -25,7 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import com.bloodBank.User_Service.Controller.HospitoController;
+
+import com.bloodBank.User_Service.Controller.HospitalController;
 import com.bloodBank.User_Service.Exceptions.DataAlreadyPresent;
 import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Hospitol;
@@ -40,7 +41,7 @@ public class HospitolControllerTest {
 	@Mock
 	 HospitolService hospitolservice;
 	 @InjectMocks
-	    private HospitoController hospitolcontroller;
+	    private HospitalController hospitolcontroller;
 	    private ObjectMapper objectMapper = new ObjectMapper(); 
 	    
 	    @BeforeEach
