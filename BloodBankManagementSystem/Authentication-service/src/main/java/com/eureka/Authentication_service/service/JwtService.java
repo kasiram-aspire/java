@@ -14,6 +14,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eureka.Authentication_service.Model.MyUser;
 import com.eureka.Authentication_service.repository.MyUserRepo;
@@ -66,7 +67,7 @@ public class JwtService {
 	        return extractClaim(token, Claims::getSubject);
 	    }
 
-	    private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+	    private <T> T extractClaim(String token, Function<Claims,T> claimResolver) {
            
 	        final Claims claims = extractAllClaims(token);
 	        return claimResolver.apply(claims);
@@ -102,7 +103,7 @@ public class JwtService {
 	                .claims(claims) // Keep old claims
 	                .subject(username)        
 	                .issuedAt(new Date(System.currentTimeMillis()))
-	                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))  //
+	                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))  
 	                .signWith(getkey())
 	                .compact();
 	    }
@@ -110,5 +111,5 @@ public class JwtService {
 	    	String token1=token.substring(7);
 	        return extractClaim(token1, claims -> claims.get("role", String.class));
 	    }
-
+        
 }

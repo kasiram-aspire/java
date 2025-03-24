@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>User-Service</name>
 	<description>Demo project for Spring Boot</description>
-	<url />
+	<url/>
 	<licenses>
 		<license />
 	</licenses>
