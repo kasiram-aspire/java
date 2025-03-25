@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionDemo {
@@ -143,5 +144,19 @@ System.out.println("\n");
         }
         System.out.println("\nlist[]:"+copywritearraylist);
   //---------------------------------------------------------------------------------------------------------
+	
+  //map
+    System.out.println("\n");
+	ConcurrentHashMap<String,Integer> concMap=new ConcurrentHashMap<String, Integer>();
+	concMap.put("kasiram",1011234);
+	concMap.put("ram",1011345);
+	
+	Iterator<Entry<String, Integer>> iterator1=concMap.entrySet().iterator();
+	while(iterator1.hasNext())
+	{
+		System.out.println(iterator1.next());
+		concMap.put("kasiram12",1011234);
+	}
+	  System.out.println("\n"+concMap);
 	}
 }
