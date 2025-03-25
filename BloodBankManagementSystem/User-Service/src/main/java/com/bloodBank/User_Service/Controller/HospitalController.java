@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.bloodBank.User_Service.Exceptions.DataAlreadyPresent;
 import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Hospitol;
 import com.bloodBank.User_Service.Service.HospitolService;
-
 @RestController
 @RequestMapping("/user/hospital")
 public class HospitalController {
