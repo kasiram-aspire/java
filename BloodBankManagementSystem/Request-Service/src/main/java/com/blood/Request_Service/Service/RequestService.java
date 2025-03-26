@@ -13,10 +13,11 @@ import com.blood.Request_Service.Model.Request;
 import com.blood.Request_Service.Model.Status;
 import com.blood.Request_Service.Repository.RequestRepository;
 import com.blood.Request_Service.Repository.StatusRepository;
+import com.blood.Request_Service.ServiceImplementation.RequestImplementation;
 import com.blood.Request_Service.dto.Donordto;
 
 @Service
-public class RequestService {
+public class RequestService implements RequestImplementation {
     @Autowired
     RequestRepository requestrepo;
     @Autowired

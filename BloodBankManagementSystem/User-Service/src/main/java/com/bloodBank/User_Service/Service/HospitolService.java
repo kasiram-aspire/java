@@ -10,9 +10,10 @@ import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Donors;
 import com.bloodBank.User_Service.Model.Hospitol;
 import com.bloodBank.User_Service.Repo.HospitolRepository;
+import com.bloodBank.User_Service.ServiceImplementation.HospitolServiceImplementation;
 
 @Service
-public class HospitolService {
+public class HospitolService implements HospitolServiceImplementation {
      @Autowired
      HospitolRepository hospitolrepo;
      

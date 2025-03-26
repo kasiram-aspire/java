@@ -13,9 +13,10 @@ import com.bloodBank.User_Service.Exceptions.DonorNotFoundException;
 import com.bloodBank.User_Service.Exceptions.IDNotFoundException;
 import com.bloodBank.User_Service.Model.Donors;
 import com.bloodBank.User_Service.Repo.DonorsRepository;
+import com.bloodBank.User_Service.ServiceImplementation.DonorServiceImplementation;
 
 @Service
-public class DonorService {
+public class DonorService implements  DonorServiceImplementation {
 	@Autowired  
 	DonorsRepository donorrepo;
 	@Autowired
