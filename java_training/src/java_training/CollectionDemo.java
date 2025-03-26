@@ -1,6 +1,7 @@
 package java_training;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class CollectionDemo {
 
@@ -158,5 +160,19 @@ System.out.println("\n");
 		concMap.put("kasiram12",1011234);
 	}
 	  System.out.println("\n"+concMap);
+	  String vp = "Welcome Java";  
+	  String pv = Arrays.stream(vp.split(" "))  
+	          .map(word -> new StringBuilder(word)  
+	                  .reverse()  
+	                  .toString()  
+	                  .chars()  
+	                  .mapToObj(c -> (char) c)  
+	                  .map(c -> Character.isUpperCase(c) ? Character.toLowerCase(c) : Character.toUpperCase(c))  
+	                  .map(String::valueOf)  
+	                  .collect(Collectors.joining()))  
+	          .collect(Collectors.joining(" "));  
+	  System.out.println(pv);
+
 	}
+	
 }
